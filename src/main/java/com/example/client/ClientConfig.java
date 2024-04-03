@@ -12,7 +12,7 @@ public class ClientConfig {
     private String pathXsdScheme;
 
     @Bean
-    public WebServiceTemplate webServiceTemplate() {
+    public WebServiceTemplate smsWebServiceTemplate() {
         WebServiceTemplate template = new WebServiceTemplate();
 
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
