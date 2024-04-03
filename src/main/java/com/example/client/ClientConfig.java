@@ -9,14 +9,14 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 @Configuration
 public class ClientConfig {
     @Value("${sms-service-client.marshaller.context-path}")
-    private String pathXsdScheme;
+    private String contextPath;
 
     @Bean
     public WebServiceTemplate smsWebServiceTemplate() {
         WebServiceTemplate template = new WebServiceTemplate();
 
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath(pathXsdScheme);
+        marshaller.setContextPath(contextPath);
 
         template.setMarshaller(marshaller);
         template.setUnmarshaller(marshaller);
