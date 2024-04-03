@@ -21,25 +21,25 @@ public class ClientService {
     private final WebServiceTemplate webServiceTemplate;
 
     @Value("${sms-service-client.server.url}")
-    private String urlService;
+    private String serverUrl;
 
     public ConsumeOutMessageResponse consumeOutMessage(ConsumeOutMessageRequest request) {
-        return (ConsumeOutMessageResponse) webServiceTemplate.marshalSendAndReceive(urlService, request);
+        return (ConsumeOutMessageResponse) webServiceTemplate.marshalSendAndReceive(serverUrl, request);
     }
 
     public GetOutMessageResponse getOutMessage(GetOutMessageRequest request) {
-        return (GetOutMessageResponse) webServiceTemplate.marshalSendAndReceive(urlService, request);
+        return (GetOutMessageResponse) webServiceTemplate.marshalSendAndReceive(serverUrl, request);
     }
 
     public GetOutMessageDlvStatusResponse getOutMessageDlvStatus(GetOutMessageDlvStatusRequest request) {
-        return (GetOutMessageDlvStatusResponse) webServiceTemplate.marshalSendAndReceive(urlService, request);
+        return (GetOutMessageDlvStatusResponse) webServiceTemplate.marshalSendAndReceive(serverUrl, request);
     }
 
     public ConsumeOperatorEventResponse provideAddressOperator(ConsumeOperatorEventRequest request) {
-        return (ConsumeOperatorEventResponse) webServiceTemplate.marshalSendAndReceive(urlService, request);
+        return (ConsumeOperatorEventResponse) webServiceTemplate.marshalSendAndReceive(serverUrl, request);
     }
 
     public ProvideServiceStatusResponse provideServiceStatus(ProvideServiceStatusRequest request) {
-        return (ProvideServiceStatusResponse) webServiceTemplate.marshalSendAndReceive(urlService, request);
+        return (ProvideServiceStatusResponse) webServiceTemplate.marshalSendAndReceive(serverUrl, request);
     }
 }
