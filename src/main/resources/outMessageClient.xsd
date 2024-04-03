@@ -1,0 +1,319 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.xmlsoap.org/soap/envelope/" targetNamespace="http://schemas.xmlsoap.org/soap/envelope/">
+    <xs:simpleType name="string64">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="64"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string100">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string200">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string256">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="E164Number">
+        <xs:restriction base="tns:string64">
+            <xs:pattern value="[0-9]{1,15}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="addressNumber">
+        <xs:restriction base="tns:string64">
+            <xs:pattern value="790-9{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="auth">
+        <xs:sequence>
+            <xs:annotation>
+                <xs:documentation>Contains the login and password information</xs:documentation>
+            </xs:annotation>
+            <xs:element name="login" type="xs:string"/>
+            <xs:element name="password" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="consumeOutMessageArg">
+        <xs:sequence>
+            <xs:element name="messageId" type="tns:string64"/>
+            <xs:element name="outMessageTypeId" type="tns:string64"/>
+            <xs:element name="subject" type="tns:string64" minOccurs="0"/>
+            <xs:element name="address" type="tns:E164Number"/>
+            <xs:element name="clientId" type="tns:string100" minOccurs="0"/>
+            <xs:element name="priority" type="tns:PriorityEnum" minOccurs="0"/>
+            <xs:element name="comment" type="tns:string256" minOccurs="0"/>
+            <xs:element name="options">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="option" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="key">
+                                        <xs:simpleType>
+                                            <xs:restriction base="tns:string256">
+                                                <xs:enumeration value="gcm/data"/>
+                                                <xs:enumeration value="aps/data"/>
+                                                <xs:enumeration value="data"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:element>
+                                    <xs:element name="value" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="outMessageTemplate">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="text" type="tns:string200"/>
+                        <xs:element name="outMessageTemplateParam" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="key" type="tns:string64"  minOccurs="0"/>
+                                    <xs:element name="value" type="tns:string100"  minOccurs="0"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PriorityEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="low"/>
+            <xs:enumeration value="normal"/>
+            <xs:enumeration value="high"/>
+            <xs:enumeration value="realtime"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="ConsumeOutMessageRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="auth" type="tns:auth"/>
+                <xs:element name="consumeOutMessageArg" type="tns:consumeOutMessageArg" maxOccurs="unbounded" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ConsumeOutMessageResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseCode" type="xs:string"/>
+                <xs:element name="consumeOutMessageResult" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="consumeOutMessageCode" type="xs:string"/>
+                            <xs:element name="messageId" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetOutMessageRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="auth" type="tns:auth"/>
+                <xs:element name="getOutMessageArg">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="messageId" type="tns:string64"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="responseCodeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ok"/>
+            <xs:enumeration value="error-system-blocked"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="outMessageCodeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ok"/>
+            <xs:enumeration value="error-system"/>
+            <xs:enumeration value="error-message-id-unknown"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="GetOutMessageResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseCode" type="tns:responseCodeEnum"/>
+                <xs:element name="getOutMessageResult" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="getOutMessageCode" type="tns:outMessageCodeEnum"/>
+                            <xs:element name="messageId" type="xs:string"/>
+                            <xs:element name="outMessage" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="messageId" type="xs:string"/>
+                                        <xs:element name="timestamp" type="xs:dateTime"/>
+                                        <xs:element name="outMessageTypeId" type="xs:string"/>
+                                        <xs:element name="subject" type="xs:string"/>
+                                        <xs:element name="address" type="xs:string"/>
+                                        <xs:element name="priority" type="xs:string"/>
+                                        <xs:element name="comment" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="text" type="xs:string"/>
+                                        <xs:element name="outMessageDlvStatus">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="dlvStatus" type="xs:string"/>
+                                                    <xs:element name="dlvStatusAt" type="xs:string"/>
+                                                    <xs:element name="dlvError" type="xs:string" minOccurs="0"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetOutMessageDlvStatusRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="auth" type="tns:auth"/>
+                <xs:element name="getOutMessageDlvStatusArg" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="messageId" type="tns:string64"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetOutMessageDlvStatusResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseCode" type="tns:responseCodeEnum"/>
+                <xs:element name="getOutMessageDlvStatusResult" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="getOutMessageDlvStatusCode" type="tns:outMessageCodeEnum"/>
+                            <xs:element name="messageId" type="xs:string"/>
+                            <xs:element name="outMessageDlvStatus" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="dlvStatus" type="xs:string"/>
+                                        <xs:element name="dlvStatusAt" type="xs:dateTime"/>
+                                        <xs:element name="dlvError" type="xs:string" minOccurs="0"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ConsumeOperatorEventRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="consumeOperatorEventArg" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="eventId" type="xs:int"/>
+                            <xs:element name="OperatorEvent">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="address" type="tns:addressNumber"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="codeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ok"/>
+            <xs:enumeration value="error-system"/>
+            <xs:enumeration value="error-syntax"/>
+            <xs:enumeration value="error-address-format"/>
+            <xs:enumeration value="error-operator-not-specified"/>
+            <xs:enumeration value="error-operator-multiply"/>
+            <xs:enumeration value="error-event-id-not-specified"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="ConsumeOperatorEventResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="consumeOperatorEventResult">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="eventId" type="xs:int"/>
+                            <xs:element name="code" type="tns:codeEnum"/>
+                            <xs:element name="countryCode" type="xs:string"/>
+                            <xs:element name="countryName" type="xs:string"/>
+                            <xs:element name="operatorCode" type="xs:string"/>
+                            <xs:element name="operatorName" type="xs:string"/>
+                            <xs:element name="unitCode" type="xs:string"/>
+                            <xs:element name="unitName" type="xs:string"/>
+                            <xs:element name="regionCode" type="xs:string"/>
+                            <xs:element name="regionName" type="xs:string"/>
+                            <xs:element name="timezone" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ProvideServiceStatusRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="provideServiceStatusArg"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="provideServiceStatusCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ok"/>
+            <xs:enumeration value="error-service"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="ProvideServiceStatusResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="code" type="tns:provideServiceStatusCode"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
