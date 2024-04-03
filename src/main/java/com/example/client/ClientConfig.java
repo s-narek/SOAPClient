@@ -8,7 +8,7 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 
 @Configuration
 public class ClientConfig {
-    @Value("${path.xsd.scheme}")
+    @Value("${sms-service-client.marshaller.context-path}")
     private String pathXsdScheme;
 
     @Bean

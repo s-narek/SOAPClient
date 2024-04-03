@@ -20,7 +20,7 @@ import org.xmlsoap.schemas.soap.envelope.ProvideServiceStatusResponse;
 public class ClientService {
     private final WebServiceTemplate webServiceTemplate;
 
-    @Value("${url.service}")
+    @Value("${sms-service-client.server.url}")
     private String urlService;
 
     public ConsumeOutMessageResponse consumeOutMessage(ConsumeOutMessageRequest request) {

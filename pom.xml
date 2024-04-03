@@ -98,7 +98,7 @@
                 </executions>
                 <configuration>
                     <sources>
-                        <source>${project.basedir}/src/main/resources/outMessageClient.xsd</source>
+                        <source>${project.basedir}/src/main/resources/xsd/outMessageClient.xsd</source>
                     </sources>
                 </configuration>
             </plugin>
