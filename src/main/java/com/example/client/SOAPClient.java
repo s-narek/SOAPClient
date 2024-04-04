@@ -15,7 +15,7 @@ public class SOAPClient {
     @Value("${sms-service-client.server.url}")
     private String serverUrl;
 
-    public ConsumeOutMessageResponse consumeOutMessage(ConsumeOutMessageRequest request) {
+    public ConsumeOutMessageResponse sendSms(ConsumeOutMessageRequest request) {
         return (ConsumeOutMessageResponse) webServiceTemplate.marshalSendAndReceive(serverUrl, request);
     }
 }

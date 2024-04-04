@@ -33,7 +33,7 @@ public class SmsClientService {
         sms.setAuth(auth);
         sms.getConsumeOutMessageArg().add(consumeOutMessageArg);
 
-        var response = soapClient.consumeOutMessage(sms);
+        var response = soapClient.sendSms(sms);
 
         if (response.getResponseCode() == ConsumeOutMessageResponseCode.OK) {
             log.info("Sms sent");

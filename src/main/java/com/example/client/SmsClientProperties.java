@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Data
 public class SmsClientProperties {
     @Value("${sms-service-client.login}")
-    public String login;
+    public final String login;
     @Value("${sms-service-client.password}")
-    public String password;
+    public final String password;
     @Value("${sms-service-client.message}")
-    public String message;
+    public final String message;
 }
