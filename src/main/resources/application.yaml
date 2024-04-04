@@ -7,6 +7,7 @@ sms-service-client:
     context-path: ${sms_service_client_marshaller_context_path:org.xmlsoap.schemas.soap.envelope}
   server:
     url: ${sms_service_client_service_url:http://localhost:8080/ws}
-  login: ${login:testLogin}
-  password: ${password:testPassword}
-  message: ${message:testMessage}
+  reporting:
+    login: ${login:testLogin}
+    password: ${password:testPassword}
+    message: ${message:testMessage}

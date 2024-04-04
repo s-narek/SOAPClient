@@ -1,16 +1,14 @@
 package com.example.client;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
+@ConfigurationProperties("sms-service-client.reporting")
 @Data
 public class SmsClientProperties {
-    @Value("${sms-service-client.login}")
-    public final String login;
-    @Value("${sms-service-client.password}")
-    public final String password;
-    @Value("${sms-service-client.message}")
-    public final String message;
+    private String login;
+    private String password;
+    private String message;
 }

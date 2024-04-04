@@ -2,6 +2,7 @@ package com.example.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.psbank.message_gate.out_message_service.Auth;
 import ru.psbank.message_gate.out_message_service.ConsumeOutMessageArg;
@@ -19,11 +20,11 @@ public class SmsClientService {
 
     public void sendSms(String otp, String phone) {
         var auth = new Auth();
-        auth.setLogin(properties.login);
-        auth.setPassword(properties.password);
+        auth.setLogin(properties.getLogin());
+        auth.setPassword(properties.getPassword());
 
         var outMessageTemplate = new OutMessageTemplate();
-        outMessageTemplate.setText(properties.message);
+        outMessageTemplate.setText(properties.getMessage());
 
         var consumeOutMessageArg = new ConsumeOutMessageArg();
         consumeOutMessageArg.setAddress("+" + phone);
