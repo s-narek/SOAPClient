@@ -2,7 +2,6 @@ package com.example.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.psbank.message_gate.out_message_service.Auth;
 import ru.psbank.message_gate.out_message_service.ConsumeOutMessageArg;
