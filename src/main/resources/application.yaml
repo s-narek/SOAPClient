@@ -1,13 +1,15 @@
+server:
+  port: 8081
 spring:
   application:
     name: sms-service-client
 
 sms-service-client:
   marshaller:
-    context-path: ${sms_service_client_marshaller_context_path:org.xmlsoap.schemas.soap.envelope}
+    context-path: ${sms_service_client_marshaller_context_path:ru.psbank.message_gate.out_message_service}
   server:
     url: ${sms_service_client_service_url:http://localhost:8080/ws}
-  reporting:
-    login: ${login:testLogin}
-    password: ${password:testPassword}
-    message: ${message:testMessage}
+  soap-client:
+    login: ${sms_service_client_soap_client_login:testLogin}
+    password: ${sms_service_client_soap_client_password:testPassword}
+    message-template: ${sms_service_client_soap_client_message_template:????????? ???????, ??? OTP ??? %s}

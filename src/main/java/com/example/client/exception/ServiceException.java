@@ -1,4 +1,4 @@
-package com.example.client;
+package com.example.client.exception;
 
 public class ServiceException extends RuntimeException {
     public ServiceException(String message) {
