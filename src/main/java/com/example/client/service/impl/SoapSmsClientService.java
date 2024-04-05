@@ -23,11 +23,6 @@ public class SoapSmsClientService implements SmsClientService {
     private final SoapClient soapClient;
     private final RootProperties rootProperties;
 
-    @Scheduled(fixedDelay = 5000L)
-    public void test() {
-        sendSms("dsdsa", "dsfsdfds");
-    }
-
     @Override
     public void sendSms(String phone, String otp) {
         var soapClientProperties = rootProperties.getSoapClient();
